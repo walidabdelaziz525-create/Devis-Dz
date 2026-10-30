@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102b46">
+<title>Devis DZ PRO V3</title>
+<style>
+:root{--navy:#102b46;--blue:#176b87;--teal:#0d806e;--bg:#f2f6f8;--line:#dce5eb;--muted:#647586;--red:#b53d35}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#172635;font-family:Tahoma,Arial,sans-serif;line-height:1.6}
+header{background:linear-gradient(130deg,#102b46,#176b87);color:#fff;padding:18px 15px 16px}.wrap{max-width:980px;margin:auto;padding:0 13px}
+.brand{font-size:24px;font-weight:900}.tag{font-size:12px;color:#d5e7f0}
+main{padding:14px 0 35px}.topline{display:flex;align-items:center;justify-content:space-between;gap:10px}.offline{font-size:11px;background:#d8f4e8;color:#126344;border-radius:30px;padding:5px 9px;font-weight:bold}
+.tabs{display:flex;gap:7px;overflow:auto;padding:10px 0 13px}.tab{white-space:nowrap;background:#e4edf2;color:#294355}.tab.active{background:var(--navy);color:white}
+.card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px;margin-bottom:12px;box-shadow:0 3px 12px #102b4608}
+h2{font-size:17px;margin:0 0 12px;color:var(--navy)}h3{font-size:15px;margin:0 0 8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.field{display:flex;flex-direction:column;gap:4px}
+label{font-size:12px;font-weight:bold;color:#42576a}
+input,textarea,select{width:100%;min-width:0;border:1px solid #cbd8e1;border-radius:9px;padding:10px;font:inherit;font-size:14px;background:#fff;color:#172635}
+button{border:0;border-radius:10px;padding:10px 13px;font:inherit;font-weight:bold;cursor:pointer}
+.primary{background:var(--teal);color:white}.secondary{background:#e7f0f4;color:#173b52}.danger{background:#fff0ef;color:var(--red)}.dark{background:var(--navy);color:#fff}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.muted{color:var(--muted);font-size:12px}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.stat{background:#edf4f7;border-radius:12px;padding:12px}.stat small{display:block;color:#5a6d7c}.stat strong{font-size:20px;color:var(--navy)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:10px}.entry{border:1px solid var(--line);border-radius:11px;padding:11px;margin:8px 0}.entry small{display:block;color:var(--muted)}
+.item{display:grid;grid-template-columns:minmax(0,2fr) .65fr .9fr 34px;gap:6px;margin:7px 0;align-items:center}.item input{padding:8px 5px;font-size:13px}
+.total{background:#edf7f3;padding:12px;border-radius:11px;margin-top:10px}.total strong{color:#08735f;font-size:20px}
+.hidden{display:none!important}.notice{background:#fff8df;border:1px solid #f1dfa0;padding:10px;border-radius:10px;font-size:12px}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:12px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}.item{grid-template-columns:minmax(0,1.6fr) .6fr .85fr 30px}.item input{font-size:12px}.card{padding:12px}.stats{grid-template-columns:repeat(2,1fr)}}
+@media print{header,.tabs,.no-print,footer{display:none!important}body{background:#fff}.card{box-shadow:none;border:0;padding:5px;margin:0}input,textarea,select{border:0;padding:2px}.wrap{max-width:none}.print-only{display:block!important}}
+</style>
+</head>
+<body>
+<header><div class="wrap topline"><div><div class="brand">Devis DZ PRO</div><div class="tag">إدارة أعمال السباكة · الإصدار V3</div></div><span class="offline">● يعمل محلياً</span></div></header>
+<main class="wrap">
+<nav class="tabs no-print" aria-label="الأقسام">
+<button class="tab active" data-tab="home">الرئيسية</button><button class="tab" data-tab="quotes">عروض الأسعار</button><button class="tab" data-tab="clients">الزبائن</button><button class="tab" data-tab="invoices">الفواتير</button><button class="tab" data-tab="team">فريق العمل</button><button class="tab" data-tab="backup">النسخ الاحتياطي</button>
+</nav>
+<section id="home" class="page">
+ <div class="card"><h2>مرحباً بك 👋</h2><p class="muted">نظّم عروضك وزبائنك وفواتيرك وفريقك من هاتف واحد.</p>
+ <div class="stats"><div class="stat"><small>عروض الأسعار</small><strong id="sQuotes">0</strong></div><div class="stat"><small>الزبائن</small><strong id="sClients">0</strong></div><div class="stat"><small>الفواتير</small><strong id="sInvoices">0</strong></div><div class="stat"><small>المبالغ المتبقية</small><strong id="sDue">0 دج</strong></div></div></div>
+ <div class="card"><h2>إجراءات سريعة</h2><div class="actions"><button class="primary" onclick="newQuote()">＋ عرض سعر جديد</button><button class="secondary" onclick="showTab('clients')">＋ إضافة زبون</button><button class="secondary" onclick="showTab('team')">＋ إضافة عامل</button></div></div>
+ <div class="notice">بيانات هذا الإصدار محفوظة على نفس الهاتف والمتصفح. صدّر نسخة احتياطية بانتظام، خصوصاً قبل تغيير الهاتف أو مسح بيانات المتصفح.</div>
+</section>
+<section id="quotes" class="page hidden">
+ <div class="card no-print"><div class="row"><h2>عروض الأسعار</h2><button class="primary" onclick="newQuote()">＋ عرض جديد</button></div><div id="quoteList"></div></div>
+ <div class="card" id="quoteEditor"><h2 id="quoteHeading">إنشاء عرض سعر</h2>
+ <div class="grid">
+ <div class="field"><label>اسم السباك / المؤسسة</label><input id="artisan" placeholder="اسم نشاطك"></div>
+ <div class="field"><label>هاتف النشاط</label><input id="artisanPhone" inputmode="tel" placeholder="05 / 06 / 07"></div>
+ <div class="field"><label>رقم العرض</label><input id="quoteNo" readonly></div>
+ <div class="field"><label>تاريخ العرض</label><input id="quoteDate" type="date"></div>
+ <div class="field"><label>الزبون</label><select id="quoteClient"><option value="">اختر زبوناً أو اكتب بياناته أدناه</option></select></div>
+ <div class="field"><label>اسم الزبون (إذا لم يكن محفوظاً)</label><input id="clientName" placeholder="اسم الزبون"></div>
+ <div class="field"><label>مكان الأشغال</label><input id="jobPlace" placeholder="العنوان"></div>
+ <div class="field"><label>مدة صلاحية العرض</label><input id="validity" value="15 يوماً"></div>
+ </div>
+ <h3 style="margin-top:15px">الخدمات والمواد</h3><div id="quoteItems"></div><button class="secondary no-print" onclick="addQuoteItem()">＋ إضافة سطر</button>
+ <div class="grid" style="margin-top:12px"><div class="field"><label>اليد العاملة (دج)</label><input id="labor" type="number" min="0" value="0"></div><div class="field"><label>التخفيض (دج)</label><input id="discount" type="number" min="0" value="0"></div></div>
+ <div class="field" style="margin-top:10px"><label>ملاحظات</label><textarea id="quoteNotes" rows="2"></textarea></div>
+ <div class="total"><div class="row"><span>المجموع الإجمالي</span><strong id="quoteTotal">0 دج</strong></div></div>
+ <div class="actions no-print"><button class="primary" onclick="saveQuote()">حفظ العرض</button><button class="secondary" onclick="printCurrent()">حفظ PDF / طباعة</button><button class="secondary" onclick="makeInvoice()">تحويل إلى فاتورة</button><button class="secondary" onclick="shareCurrent()">مشاركة الملخص</button></div>
+ <p id="quoteStatus" class="muted"></p></div>
+</section>
+<section id="clients" class="page hidden">
+ <div class="card"><h2>إدارة الزبائن</h2><div class="grid"><div class="field"><label>اسم الزبون</label><input id="newClientName"></div><div class="field"><label>رقم الهاتف</label><input id="newClientPhone" inputmode="tel"></div><div class="field"><label>العنوان</label><input id="newClientAddress"></div></div><button class="primary" style="margin-top:10px" onclick="addClient()">حفظ الزبون</button><div id="clientList" style="margin-top:12px"></div></div>
+</section>
+<section id="invoices" class="page hidden">
+ <div class="card"><h2>الفواتير والمدفوعات</h2><p class="muted">حوّل عرض السعر إلى فاتورة، ثم سجّل الدفعات لمعرفة المبلغ المتبقي.</p><div id="invoiceList"></div></div>
+ <div class="card"><h2>تسجيل دفعة</h2><div class="field"><label>الفاتورة</label><select id="payInvoice"></select></div><div class="field" style="margin-top:8px"><label>المبلغ المدفوع (دج)</label><input id="payAmount" type="number" min="1"></div><button class="primary" style="margin-top:10px" onclick="recordPayment()">تسجيل الدفعة</button></div>
+</section>
+<section id="team" class="page hidden">
+ <div class="card"><h2>فريق العمل</h2><p class="muted">سجّل العمال وأدوارهم ومعلومات التواصل. في V3 هذه قائمة إدارية على جهاز صاحب النشاط وليست حسابات دخول منفصلة للعمال.</p><div class="grid"><div class="field"><label>اسم العامل</label><input id="workerName"></div><div class="field"><label>رقم الهاتف</label><input id="workerPhone" inputmode="tel"></div><div class="field"><label>الدور / التخصص</label><input id="workerRole" placeholder="سباك، مساعد، كهربائي..."></div><div class="field"><label>الأجر اليومي (دج) اختياري</label><input id="workerPay" type="number" min="0"></div></div><button class="primary" style="margin-top:10px" onclick="addWorker()">إضافة العامل</button><div id="workerList" style="margin-top:12px"></div></div>
+</section>
+<section id="backup" class="page hidden">
+ <div class="card"><h2>النسخ الاحتياطي والاسترجاع</h2><p>احفظ نسخة من بياناتك في ملف على الهاتف، أو خزّن الملف في Google Drive يدوياً.</p><div class="actions"><button class="primary" onclick="exportBackup()">تنزيل نسخة احتياطية</button><button class="secondary" onclick="$('backupFile').click()">استرجاع نسخة احتياطية</button><input id="backupFile" class="hidden" type="file" accept="application/json,.json" onchange="importBackup(event)"></div><p class="muted">للحفظ في Google Drive: نزّل الملف ثم افتح تطبيق Drive وارفعه إلى حسابك. لا يوجد ربط تلقائي بحساب Google في هذا الإصدار.</p><p id="backupStatus" class="muted"></p></div>
+</section>
+</main><footer>Devis DZ PRO V3 · يعمل دون إنترنت بعد فتحه · البيانات على هذا الجهاز</footer>
+<script>
+const $=id=>document.getElementById(id), KEY='devis_dz_pro_v3';
+let db={profile:{},quotes:[],clients:[],invoices:[],workers:[],counters:{quote:0,invoice:0}},editingQuote=null;
+function load(){try{let x=JSON.parse(localStorage.getItem(KEY)||'null');if(x){db={...db,...x};return;}
+ // ترحيل عروض النسخة الثانية تلقائياً عند تحديث الموقع على نفس النطاق والمتصفح
+ let oldQuotes=JSON.parse(localStorage.getItem('devis_dz_quotes_v2')||'[]');
+ let oldProfile=JSON.parse(localStorage.getItem('devis_dz_profile_v2')||'{}');
+ if(Array.isArray(oldQuotes)&&oldQuotes.length){
+   db.profile={name:oldProfile.artisan||oldQuotes[0].artisan||'',phone:oldProfile.phone||oldQuotes[0].phone||''};
+   db.quotes=oldQuotes.map(q=>({id:q.id||id(),no:q.quoteNo||'DEV-OLD',date:q.date||'',artisan:q.artisan||db.profile.name,phone:q.phone||db.profile.phone,clientId:'',client:q.client||'',place:q.place||'',validity:q.validity||'',items:(q.items||[]).map(i=>({desc:i.desc||'',qty:Number(i.qty)||0,price:Number(i.price)||0})),labor:Number(q.labor)||0,discount:Number(q.discount)||0,notes:q.notes||'',total:Number(q.total)||0,updatedAt:q.updatedAt||new Date().toISOString()}));
+   db.counters.quote=db.quotes.length;
+   let names=[...new Set(db.quotes.map(q=>q.client).filter(Boolean))];
+   db.clients=names.map(name=>({id:id(),name,phone:'',address:''}));
+   db.quotes.forEach(q=>{let c=db.clients.find(x=>x.name===q.client);if(c)q.clientId=c.id});
+   localStorage.setItem(KEY,JSON.stringify(db));
+ }
+ }catch(e){}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(db));return true}catch(e){alert('تعذر الحفظ: مساحة المتصفح قد تكون ممتلئة. صدّر نسخة احتياطية.');return false}}
+function money(v){return (Number(v)||0).toLocaleString('fr-FR',{maximumFractionDigits:2})+' دج'}
+function id(){return 'id'+Date.now()+Math.random().toString(16).slice(2,6)}
+function showTab(name){document.querySelectorAll('.page').forEach(x=>x.classList.add('hidden'));$(name).classList.remove('hidden');document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x.dataset.tab===name));render();window.scrollTo(0,0)}
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function next(type){db.counters[type]=(db.counters[type]||0)+1;persist();return (type==='quote'?'DEV-':'FAC-')+String(db.counters[type]).padStart(4,'0')}
+function refreshClientSelect(){let s=$('quoteClient');s.innerHTML='<option value="">اختر زبوناً أو اكتب بياناته أدناه</option>'+db.clients.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function addQuoteItem(d={}){let r=document.createElement('div');r.className='item';r.innerHTML='<input class="desc" placeholder="الخدمة أو المادة"><input class="qty" type="number" min="0" step="any" value="1"><input class="price" type="number" min="0" step="any" value="0"><button class="danger" type="button">×</button>';r.querySelector('.desc').value=d.desc||'';r.querySelector('.qty').value=d.qty??1;r.querySelector('.price').value=d.price??0;r.querySelector('button').onclick=()=>{if(document.querySelectorAll('.item').length>1){r.remove();calcQuote()}};$('quoteItems').append(r);r.querySelectorAll('input').forEach(x=>x.oninput=calcQuote);calcQuote()}
+function quoteRows(){return [...document.querySelectorAll('#quoteItems .item')].map(r=>({desc:r.querySelector('.desc').value,qty:Number(r.querySelector('.qty').value)||0,price:Number(r.querySelector('.price').value)||0}))}
+function quoteSum(){return Math.max(0,quoteRows().reduce((a,x)=>a+x.qty*x.price,0)+(Number($('labor').value)||0)-(Number($('discount').value)||0))}
+function calcQuote(){$('quoteTotal').textContent=money(quoteSum())}
+function newQuote(){editingQuote=null;$('quoteHeading').textContent='إنشاء عرض سعر';$('quoteNo').value=next('quote');$('quoteDate').value=new Date().toISOString().slice(0,10);$('artisan').value=db.profile.name||'';$('artisanPhone').value=db.profile.phone||'';$('quoteClient').value='';$('clientName').value='';$('jobPlace').value='';$('validity').value='15 يوماً';$('labor').value=0;$('discount').value=0;$('quoteNotes').value='';$('quoteItems').innerHTML='';addQuoteItem();$('quoteStatus').textContent='';showTab('quotes')}
+function collectQuote(){let cid=$('quoteClient').value,c=db.clients.find(x=>x.id===cid);return{id:editingQuote||id(),no:$('quoteNo').value,date:$('quoteDate').value,artisan:$('artisan').value.trim(),phone:$('artisanPhone').value.trim(),clientId:cid,client:c?.name||$('clientName').value.trim(),place:$('jobPlace').value,validity:$('validity').value,items:quoteRows(),labor:Number($('labor').value)||0,discount:Number($('discount').value)||0,notes:$('quoteNotes').value,total:quoteSum(),updatedAt:new Date().toISOString()}}
+function saveQuote(){let q=collectQuote();if(!q.artisan||!q.client||!q.items.some(x=>x.desc.trim()))return alert('أدخل اسم النشاط والزبون وخدمة واحدة على الأقل.');db.profile={name:q.artisan,phone:q.phone};let i=db.quotes.findIndex(x=>x.id===q.id);if(i>=0)db.quotes[i]=q;else db.quotes.unshift(q);if(persist()){$('quoteStatus').textContent='تم حفظ '+q.no+' بنجاح.';renderQuotes()}}
+function editQuote(id){let q=db.quotes.find(x=>x.id===id);if(!q)return;editingQuote=id;$('quoteHeading').textContent='تعديل '+q.no;$('quoteNo').value=q.no;$('quoteDate').value=q.date;$('artisan').value=q.artisan;$('artisanPhone').value=q.phone;$('clientName').value=q.client;$('jobPlace').value=q.place;$('validity').value=q.validity;refreshClientSelect();$('quoteClient').value=q.clientId||'';$('labor').value=q.labor;$('discount').value=q.discount;$('quoteNotes').value=q.notes;$('quoteItems').innerHTML='';q.items.forEach(addQuoteItem);showTab('quotes')}
+function renderQuotes(){$('quoteList').innerHTML=db.quotes.length?db.quotes.map(q=>`<div class="entry"><div class="row"><b>${esc(q.no)} · ${esc(q.client)}</b><b>${money(q.total)}</b></div><small>${esc(q.date||'')} · ${q.invoiced?'تمت الفوترة':'غير مفوتر'}</small><div class="actions"><button class="secondary" onclick="editQuote('${q.id}')">فتح / تعديل</button><button class="danger" onclick="deleteQuote('${q.id}')">حذف</button></div></div>`).join(''):'<p class="muted">لا توجد عروض محفوظة.</p>'}
+function deleteQuote(id){if(confirm('حذف هذا العرض؟')){db.quotes=db.quotes.filter(x=>x.id!==id);persist();renderQuotes()}}
+function printCurrent(){let q=collectQuote();if(!q.artisan||!q.client||!q.items.some(x=>x.desc.trim()))return alert('أكمل بيانات العرض أولاً.');let w=window.open('','_blank');if(!w)return alert('اسمح بفتح النوافذ المنبثقة لإنشاء PDF.');w.document.write(`<html lang="ar" dir="rtl"><meta charset="utf-8"><title>${esc(q.no)}</title><style>body{font-family:Tahoma,Arial;padding:28px;color:#172635}h1{color:#102b46}table{width:100%;border-collapse:collapse;margin:20px 0}td,th{border:1px solid #ccd7df;padding:9px;text-align:right}.sum{font-size:20px;font-weight:bold;color:#08735f}</style><h1>عرض سعر · ${esc(q.no)}</h1><p>مقدم من: ${esc(q.artisan)} · ${esc(q.phone)}</p><p>إلى: ${esc(q.client)} · التاريخ: ${esc(q.date)}</p><p>مكان الأشغال: ${esc(q.place)}</p><table><tr><th>الخدمة / المادة</th><th>الكمية</th><th>سعر الوحدة</th><th>المجموع</th></tr>${q.items.filter(x=>x.desc).map(x=>`<tr><td>${esc(x.desc)}</td><td>${x.qty}</td><td>${money(x.price)}</td><td>${money(x.qty*x.price)}</td></tr>`).join('')}</table><p>اليد العاملة: ${money(q.labor)} · التخفيض: ${money(q.discount)}</p><p class="sum">الإجمالي: ${money(q.total)}</p><p>الصلاحية: ${esc(q.validity)} </p><p>${esc(q.notes)}</p><script>window.onload=()=>window.print()<\/script></html>`);w.document.close()}
+function shareCurrent(){let q=collectQuote(),t=`عرض سعر ${q.no}\nمن: ${q.artisan}\nالزبون: ${q.client}\n${q.items.map(x=>x.desc+': '+x.qty+' × '+money(x.price)).join('\n')}\nالإجمالي: ${money(q.total)}`;if(navigator.share)navigator.share({title:'Devis DZ PRO',text:t}).catch(()=>{});else alert(t)}
+function makeInvoice(){let q=collectQuote();if(!q.artisan||!q.client||!q.items.some(x=>x.desc.trim()))return alert('أكمل العرض واحفظه أولاً.');if(!editingQuote){editingQuote=q.id;saveQuote()}let old=db.quotes.find(x=>x.id===editingQuote);if(!old)return;let inv=db.invoices.find(x=>x.quoteId===old.id);if(inv){showTab('invoices');return alert('توجد فاتورة لهذا العرض بالفعل.')}let f={id:id(),no:next('invoice'),quoteId:old.id,client:old.client,date:new Date().toISOString().slice(0,10),total:old.total,paid:0,payments:[]};db.invoices.unshift(f);old.invoiced=true;persist();showTab('invoices')}
+function renderClients(){$('clientList').innerHTML=db.clients.length?db.clients.map(c=>`<div class="entry"><b>${esc(c.name)}</b><small>${esc(c.phone)} · ${esc(c.address)}</small><button class="danger" onclick="removeClient('${c.id}')">حذف</button></div>`).join(''):'<p class="muted">لا يوجد زبائن بعد.</p>'}
+function addClient(){let name=$('newClientName').value.trim();if(!name)return alert('أدخل اسم الزبون.');db.clients.unshift({id:id(),name,phone:$('newClientPhone').value,address:$('newClientAddress').value});persist();$('newClientName').value=$('newClientPhone').value=$('newClientAddress').value='';renderClients();refreshClientSelect()}
+function removeClient(id){if(confirm('حذف بيانات هذا الزبون؟')){db.clients=db.clients.filter(x=>x.id!==id);persist();renderClients();refreshClientSelect()}}
+function renderInvoices(){$('invoiceList').innerHTML=db.invoices.length?db.invoices.map(f=>`<div class="entry"><div class="row"><b>${esc(f.no)} · ${esc(f.client)}</b><b>${money(f.total)}</b></div><small>مدفوع: ${money(f.paid)} · متبقٍ: ${money(Math.max(0,f.total-f.paid))}</small><small>${esc(f.date)}</small></div>`).join(''):'<p class="muted">لا توجد فواتير. أنشئ عرضاً ثم اضغط تحويل إلى فاتورة.</p>';$('payInvoice').innerHTML=db.invoices.map(f=>`<option value="${f.id}">${esc(f.no)} · ${esc(f.client)} · متبقٍ ${money(f.total-f.paid)}</option>`).join('')}
+function recordPayment(){let f=db.invoices.find(x=>x.id===$('payInvoice').value),v=Number($('payAmount').value)||0;if(!f||v<=0)return alert('اختر فاتورة وأدخل مبلغاً صحيحاً.');if(v>f.total-f.paid)return alert('المبلغ أكبر من المتبقي.');f.paid+=v;f.payments.push({amount:v,date:new Date().toISOString()});persist();$('payAmount').value='';renderInvoices();renderHome()}
+function addWorker(){let name=$('workerName').value.trim();if(!name)return alert('أدخل اسم العامل.');db.workers.push({id:id(),name,phone:$('workerPhone').value,role:$('workerRole').value,pay:Number($('workerPay').value)||0});persist();$('workerName').value=$('workerPhone').value=$('workerRole').value=$('workerPay').value='';renderWorkers()}
+function renderWorkers(){$('workerList').innerHTML=db.workers.length?db.workers.map(w=>`<div class="entry"><b>${esc(w.name)}</b><small>${esc(w.role)} · ${esc(w.phone)} · أجر يومي ${money(w.pay)}</small><button class="danger" onclick="removeWorker('${w.id}')">حذف</button></div>`).join(''):'<p class="muted">لم تتم إضافة عمال.</p>'}
+function removeWorker(id){if(confirm('حذف العامل؟')){db.workers=db.workers.filter(w=>w.id!==id);persist();renderWorkers()}}
+function exportBackup(){let blob=new Blob([JSON.stringify({app:'Devis DZ PRO',version:3,exportedAt:new Date().toISOString(),data:db},null,2)],{type:'application/json'}),a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download='Devis-DZ-PRO-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click();URL.revokeObjectURL(url);$('backupStatus').textContent='تم تجهيز ملف النسخة الاحتياطية. احفظه في الهاتف أو ارفعه إلى Google Drive.'}
+function importBackup(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{try{let x=JSON.parse(r.result),data=x.data||x;if(!data.quotes||!data.clients||!data.invoices||!data.workers)throw Error();if(!confirm('سيتم استبدال البيانات الحالية بالنسخة المختارة. هل تريد المتابعة؟'))return;db=data;persist();render();$('backupStatus').textContent='تم استرجاع النسخة الاحتياطية بنجاح.'}catch(err){alert('الملف غير صالح أو ليس نسخة Devis DZ PRO.')}e.target.value=''};r.readAsText(f)}
+function renderHome(){$('sQuotes').textContent=db.quotes.length;$('sClients').textContent=db.clients.length;$('sInvoices').textContent=db.invoices.length;$('sDue').textContent=money(db.invoices.reduce((a,f)=>a+Math.max(0,f.total-f.paid),0))}
+function render(){renderHome();renderQuotes();renderClients();renderInvoices();renderWorkers();refreshClientSelect()}
+load();render();newQuote();
+</script></body></html>
